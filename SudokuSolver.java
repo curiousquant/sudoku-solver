@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+import java.time.LocalTime;
 
 public class SudokuSolver{
   final int MAX_SIZE_BOARD=81;
@@ -49,6 +50,7 @@ public class SudokuSolver{
     }
 
     public List<Integer> solve(){
+      LocalTime myObj = LocalTime.now();
       List<Integer> initboard = new ArrayList<>();
       //Arrays.fill(this.getBoard(),1);
       
@@ -166,7 +168,7 @@ public class SudokuSolver{
         }
 
         if(!this.checkBoard(b)){
-          //System.out.println(b);
+          System.out.println(b);
           int bsize = b.size();
           b.clear();
           for(int n=0;n<bsize;n++){
@@ -174,7 +176,9 @@ public class SudokuSolver{
           }
         }
       }
-      
+      LocalTime myObj2 = LocalTime.now();
+
+      System.out.println(myObj2+"|||"+myObj);
       return b;
     }
 
@@ -222,6 +226,114 @@ public class SudokuSolver{
       
       return true;
     }
+
+    public List<Integer> solve2(){
+      List<Integer> solution = Arrays.asList(this.getBoard());
+      //Arrays.fill(this.getBoard(),1);
+      List<Integer> board = Arrays.asList(this.getBoard());
+      while(solution.contains(0)){
+
+        //System.out.println(board);
+        for(int i=0;i<9;i++){
+          for(int j=0;j<9;j++){
+            ArrayList<Integer> vals = new ArrayList<Integer>();
+            for(int k=1;k<10;k++){
+              ArrayList<Integer> rows = new ArrayList<Integer>();
+              for(int l=0;l<9;l++){
+                rows.add(board.get(9*i+l));
+              } 
+              ArrayList<Integer> cols = new ArrayList<Integer>();
+              for(int l=0;l<9;l++){
+                cols.add(board.get(9*l+j));
+              }
+              ArrayList<Integer> box = new ArrayList<Integer>();
+              if(i<3&&j<3){
+                for(int l=0;l<3;l++){
+                  for(int m=0;m<3;m++){
+                    box.add(board.get(9*l+m));
+                  }
+                }
+              }
+              else if(i<6&&i>=3&&j<3){
+                for(int l=3;l<6;l++){
+                  for(int m=0;m<3;m++){
+                    box.add(board.get(9*l+m));
+                  }
+                }
+              }
+              else if(i<9&&i>=6&&j<3){
+                for(int l=6;l<9;l++){
+                  for(int m=0;m<3;m++){
+                    box.add(board.get(9*l+m));
+                  }
+                }
+              }
+              else if(i<3&&i>=0&&j<6&&j>=3){
+                for(int l=0;l<3;l++){
+                  for(int m=3;m<6;m++){
+                    box.add(board.get(9*l+m));
+                  }
+                }
+              }
+              else if(i<6&&i>=3&&j<6&&j>=3){
+                for(int l=3;l<6;l++){
+                  for(int m=3;m<6;m++){
+                    box.add(board.get(9*l+m));
+                  }
+                }
+              }
+              else if(i<9&&i>=6&&j<6&&j>=3){
+                for(int l=6;l<9;l++){
+                  for(int m=3;m<6;m++){
+                    box.add(board.get(9*l+m));
+                  }
+                }
+              }
+              else if(i<3&&i>=0&&j<9&&j>=6){
+                for(int l=0;l<3;l++){
+                  for(int m=6;m<9;m++){
+                    box.add(board.get(9*l+m));
+                  }
+                }
+              }
+              else if(i<6&&i>=3&&j<9&&j>=6){
+                for(int l=3;l<6;l++){
+                  for(int m=6;m<9;m++){
+                    box.add(board.get(9*l+m));
+                  }
+                }
+              }
+              else if(i<9&&i>=6&&j<9&&j>=6){
+                for(int l=6;l<9;l++){
+                  for(int m=6;m<9;m++){
+                    box.add(board.get(9*l+m));
+                  }
+                }
+              }
+              //System.out.println(9*i+","+j+","+k+","+rows+","+cols+","+box);
+              if(!rows.contains(k) && !cols.contains(k) &&!box.contains(k)&&board.get(9*i+j)==0){
+                //System.out.println("value:"+k+","+"index:"+i+","+j);
+                //System.out.println(k);
+                vals.add(k);
+              }
+            }
+            //System.out.println(vals+"index:"+i+","+j);
+            if(vals.size()==1){
+              if(board.get(9*i+j)==0){
+                solution.set(9*i+j,vals.get(0));
+                //System.out.println(9*i+j+",!"+vals.get(0));
+                //System.out.println(board.equals(solution));
+                //System.out.println(solution);
+              }
+            }
+          }
+        }
+      }
+
+      return solution;
+    }
+
+
     public Integer[] getBoard(){
       return this.board;
     }
