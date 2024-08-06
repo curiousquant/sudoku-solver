@@ -12,13 +12,13 @@ public class SudokuSolver{
         System.out.println("Hello World");
         Integer[] ex1_bAlmostSolved = {4,9,7,8,6,1,3,5,2,
         8,5,1,2,4,3,7,9,6,
-        6,3,2,9,5,7,1,8,4,
-        7,4,3,6,2,5,8,1,9,
+        6,0,0,0,5,7,1,8,4,
+        7,0,0,6,2,5,8,1,9,
         2,1,5,3,8,9,4,6,7,
         9,8,6,7,1,4,2,3,5,
         5,7,9,4,3,8,6,2,0,
         1,6,8,5,7,2,9,4,3,
-        3,2,4,1,9,0,5,7,0};
+        3,0,0,1,9,0,5,7,0};
         Integer[] ex1_bOriginal = {4,0,0,0,6,0,0,5,2,
           0,5,0,0,4,0,7,0,0,
           6,3,2,0,0,0,1,8,0,
@@ -166,9 +166,9 @@ public class SudokuSolver{
             }
           //}
         }
-
+        //System.out.println("!"+b);
         if(!this.checkBoard(b)){
-          System.out.println(b);
+          //System.out.println(b);
           int bsize = b.size();
           b.clear();
           for(int n=0;n<bsize;n++){
@@ -183,9 +183,10 @@ public class SudokuSolver{
     }
 
     public boolean checkBoard(List<Integer> board){
-
+      boolean containZero = !board.contains(0);
       for(int i=0;i<ROW_SIZE;i++){
         for(int j=0;j<COL_SIZE;j++){
+          
           ArrayList<Integer> rows = new ArrayList<Integer>();
           for(int l=0;l<9;l++){
             rows.add(board.get(9*i+l));
@@ -206,7 +207,7 @@ public class SudokuSolver{
             }
             
             if(count>1){
-              return false;
+              return false && containZero;
             }
           }
           for(int k=1;k<10;k++){
@@ -218,13 +219,13 @@ public class SudokuSolver{
               //System.out.println(count+"!"+k+"!"+cols.get(l)+"!"+rows+"!"+cols);
             }
             if(count>1){
-              return false;
+              return false && containZero;
             }
           }
         }
       }
       
-      return true;
+      return true && containZero;
     }
 
     public List<Integer> solve2(){
