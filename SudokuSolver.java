@@ -15,7 +15,7 @@ public class SudokuSolver{
   public static final int COL_SIZE=9;
     public static void main(String[] args) {
         System.out.println("Hello World");
-        //update 
+        
         SudokuSolver s = new SudokuSolver();
         s.setBoard(s.readBoard());
         //System.out.println(s.readBoard().toString());
